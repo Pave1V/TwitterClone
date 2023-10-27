@@ -1,0 +1,85 @@
+{% extends "base.html" %} {% block content %} {% load static %} 
+<section class="content">
+  <div class="main-header">
+    <img class="twitter" src="/static/img/logo-twitterblue.svg" style="width: 50px; margin-right: 20px; margin-left: 5px;">
+    <h1>Home</h1>
+  </div>
+  <section class="post_form">
+    <div class="logo">
+      <img src="{% static 'img/user.png' %}" />
+    </div>
+    <form class="post1" enctype="multipart/form-data" action="/" method="POST">
+      {% csrf_token %}
+
+      <input type="text" name="name" placeholder="Name" style="background: #e6fef7;" required />
+      <textarea name="body" placeholder="Tell us anything" required></textarea>
+      <div class = "bottom_area">
+        {% load cloudinary %}
+        <form method="post" enctype="multipart/form-data">
+
+          {{ form.image }}
+
+        </form>
+        
+        <div class ="mb-0">
+          <input class="form-control form-control-sm" name="image" type="file">
+          
+        </div>
+        <button  class="btn" type="submit">Tweet</button>
+      </div>
+    </form>
+  </section>
+  <section class="posts">
+    <ul>
+      {% for post in posts %}
+      <li>
+        <img class="menu_icon js-menu-icon" src = {% static 'img/option.png' %} />
+        <div class="menu">
+          <a href="/delete/{{ post.id }}/">Delete</a></br>
+          <a href="/edit/{{ post.id }}/">Edit</a>
+        </div>
+        <div class="logo">
+          <img src="{% static 'img/user.png' %}" />
+        </div>
+        <div class="name_body">
+          <div class="name">{{ post.name }}</div>
+          <div class="datetime">{{ post.created_at }}</div>
+          <p>{{ post.body }}</p>
+          <div>
+            
+              <img src="{{ post.image.url }}" style ="width: 100%; border-radius: 10px;">
+            
+          </div>
+          <div class = "row">
+            <a href = "like/{{post.id}}/">
+              <button class = "like-button" type = "submit" , name = "post_id" , value = "{{post.id}}">
+                <img style = "width:20 px ; height:20px;" src = "{% static 'img/love.png'%}"/>
+              </button>
+            </a>
+            <div class = "likes-count">{{post.likes}}</div>
+          
+          <!-- <img id="like" class="heart_icon js-heart-icon" src = {% static 'img/heart.png' %} />
+          <span id="likeCount"></span> -->
+        
+          
+          <!-- <a href="/delete/{{ post.id }}/">delete</a> -->
+        </div>
+        <!-- <div class = "row">
+          <a href = "like/{{post.id}}/">
+            <button class = "like-button" type = "submit" , name = "post_id" , value = "{{post.id}}">
+              <img style = "width:20 px ; height:20px;" src = "{% static 'img/love.png'%}"/>
+            </button>
+          </a>
+          <div class = "likes-count">{{post.likes}}</div>
+        </div> -->
+
+        
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <script src="{% static 'js/posts.js' %}"></script>
+</section>
+
+{% endblock %}

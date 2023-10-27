@@ -1,0 +1,54 @@
+{% extends "posts.html" %} {% block content %} {% load static %}
+
+<section class="content">
+    <div class="main-header">
+        <img class="twitter" src="/static/img/logo-twitterblue.svg" style="width: 50px; margin-right: 20px; margin-left: 5px;">
+        <h1>Edit</h1>
+      </div>
+  <section class="post_form">
+    <div class="logo">
+      <img src="{% static 'img/user.png' %}" />
+    </div>
+    <form
+      enctype="multipart/form-data"
+      action="{% url 'edit' post.id %}"
+      style="width: 100%"
+      method="POST"
+    >
+      {% csrf_token %}
+      <!-- {{ form.as_p }} -->
+      <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        value="{{ post.name }}"
+        style="background: #e6fef7"
+        required
+      />
+      <textarea name="body" placeholder="Tell us anything" required>
+{{ post.body }}</textarea
+      >
+      <div>
+        <img
+          src="{{ post.image.url }}"
+          style="width: 300px; border-radius: 10px"
+        />
+      </div>
+      <div class="bottom_area">
+        {% load cloudinary %}
+        <div class="mb-0">
+          <input
+            class="form-control form-control-sm"
+            name="image"
+            type="file"
+          />
+        </div>
+
+        <a class="btn btn2" href="/"> Cancel </a>
+        <button class="btn" type="submit">Update</button>
+      </div>
+    </form>
+  </section>
+</section>
+
+{% endblock content %}
